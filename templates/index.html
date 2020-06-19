@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <!-- Webpage Title -->
+  <title>Find Interior</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='stl2.css') }}">
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <meta property="og:url" content="http://findmyinterior.shop/">
+  <meta property="og:title" content=" 여러가구 한눈에 보기 ">
+  <meta name="og:description" content=" 가구찾기 --------첫홈페이지 JH~~~~~~~~~~~~~~~~~ ">
+  <meta property="og:image" content="https://i.pinimg.com/originals/a2/56/b1/a256b1a325a6af0f2f76c48180f9193a.jpg">
+
+
+  <meta name="google-site-verification" content="JKks5V4_errz_9guRg3dyDJS-Xc_E3HETxw9jQy4YAQ" />
+  <script>
+    $(function () {
+      $(".box").draggable();
+    });
+
+    function goToInfo() {
+      let selected_one = $('#something').val();
+      let counted_one = $('#pre_count').val();
+
+      if (selected_one == 'none') {
+        alert('가구를 선택하세요.');
+        return;
+      }
+      if (counted_one == '') {
+        alert('숫자를 입력하세요!!')
+        return;
+      }
+
+      localStorage.setItem('pre_selected', selected_one);
+      localStorage.setItem('pre_counted', counted_one);
+      window.location.href = '/info';
+    }
+
+    function goTorandom() {
+      window.location.href = '/rand';
+    }
+
+  </script>
+
+
+  <!-- style -->
+  <style type="text/css">
+    .some {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      margin: 5px;
+    }
+
+    #btn_group button {
+      border: 1px solid skyblue;
+      background-color: rgba(8, 142, 252, 0);
+      color: rgb(44, 168, 218);
+      padding: 5px;
+    }
+
+    #btn_group button:hover {
+      color: white;
+      background-color: rgb(82, 14, 241);
+    }
+
+    #go1 {
+      margin: 10px;
+    }
+
+    #go2 {
+      margin: 50px;
+      width: 200px;
+      height: 50px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+
+
+  <h1>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+    <small>가격으로</small> 가구 비교하기 <br>
+
+    <select class="custom-select" id="something" style="width: 330px; height: 40px;"
+      aria-label="Example select with button addon">
+      <option value="none" selected>가구 선택하기!</option>
+      <option value="chair">의자</option>
+      <option value="sofa">소파</option>
+      <option value="desk">책상</option>
+    </select>
+    <br>
+    <div class='some' id="btn_group">
+      <input type="number" id="pre_count" placeholder="보고싶은갯수(숫자입력)" style="width: 220px;
+      height: 25px;">
+      <button name="forwardBtn" id="go1" onclick="goToInfo();">찾으러가기</button>
+      <button name="forwardBtn" id="go2" onclick="goTorandom();">그냥둘러보기</button>
+    </div>
+    <p style="font-size:5px; float:right;">-jj</p>
+
+
+  </h1>
+
+  <!-- You can add more ".slideshow-image" elements, but remember to update the "$items" variable on SCSS -->
+  <div class="slideshow">
+    <div class="slideshow-image"
+      style="background-image: url('https://jangin.com/data/main/file2_1565333623j6tw6yt60e.jpg')"></div>
+    <div class="slideshow-image"
+      style="background-image: url('https://t1.daumcdn.net/liveboard/ohouse/9efe9768f5d94ae2bb5a1c5257054741.JPG')">
+    </div>
+    <div class="slideshow-image"
+      style="background-image: url('https://i.pinimg.com/originals/a1/73/de/a173de780359394589d63ec2c1587b84.jpg')">
+    </div>
+    <div class="slideshow-image"
+      style="background-image: url('https://phmkorea.com/wp-content/uploads/2018/11/Main.jpg')"></div>
+  </div>
+
+</body>
+
+</html>

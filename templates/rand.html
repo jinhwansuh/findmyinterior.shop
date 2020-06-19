@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <!-- Webpage Title -->
+    <title>!!!!!!!!!!!!!가구 찾기!!!!!!!!!!!!!!!!!!!!</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+    <script>
+
+        $(".hover").mouseleave(
+            function () {
+                $(this).removeClass("hover");
+            }
+        );
+
+        $(document).ready(function () {
+            alert('랜덤검색!')
+            $('.cards').empty('');
+            $.ajax({
+                type: "GET",
+                url: "/info/random",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let rands = response['rand'];
+                        for (let i = 0; i < 60; i++) {
+                            make_card(rands[i]['price'], rands[i]['img'], rands[i]['name'], rands[i]['url'], rands[i]['brand']);
+                        }
+                    }else {
+                        alert('정보를 받아오지 못했습니다');
+                    }
+                }
+            });
+
+        });
+
+
+        function randgo() {
+            $('.cards').empty('');
+            $.ajax({
+                type: "GET",
+                url: "/info/random",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let rands = response['rand'];
+                        for (let i = 0; i < 60; i++) {
+                            make_card(rands[i]['price'], rands[i]['img'], rands[i]['name'], rands[i]['url'], rands[i]['brand']);
+                        }
+                    }else {
+                        alert('정보를 받아오지 못했습니다');
+                    }
+                }
+            });
+        }
+        function goback() {
+            window.location.href = "/";
+        }
+
+
+        function make_card(price, img, name, url, brand) {
+            let temp_html = '<figure class="snip1446">\
+                            <div class="gogo" style="display: inline-block;">\
+                                <img src="'+ img + ' alt="sample71" />좋아요갯수\
+                            <figcaption>\
+                                <h2> '+ name + '</h2><br><br><br><br><br><br><br>\
+                                <h3 class="url"><a href="'+ url + '">' + brand + '</a>\</h3>\
+                                <h3>'+ price + '</h3>\
+                                <div class="icons">\
+                                    <a href="#"> <i class="ion-heart onclick="like_item(\''+ img + '\');"></i></a>\
+                                    <a href="'+ url + '"> <i class="ion-search"></i></a>\
+                                    <a href="#"> <i class="icon ion-archive"></i></a>\
+                                    <a href="#"> <i class="icon ion-close" onclick="delete_item(\''+ img + '\');"></i></a>\
+                                </div>\
+                            </figcaption>\
+                        </div>\
+                        </figure>';
+            $('.cards').append(temp_html);
+        }
+
+
+
+
+        function delete_item(img) {
+            $.ajax({
+                type: "POST",
+                url: "/info/delete",
+                data: { 'img_give': img },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
+                        alert('삭제 완료! 안녕!')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+        function like_item(img) {
+            // 1. 서버에 1) POST 방식으로, 2) /api/like 라는 url에, 3) name_give라는 이름으로 name을 전달합니다.
+            // 참고) POST 방식이므로 data: {'name_give': name} 과 같은 양식이 되어야합니다!
+            $.ajax({
+                type: "POST",
+                url: "/info/like",
+                data: { 'img_give': img },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. '좋아요 완료!' 얼럿을 띄웁니다.
+                        alert('좋아요 완료!')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                   
+                   
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+
+    </script>
+
+
+    <!-- style -->
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,500,900);
+        @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+
+        body {
+            background-color: white;
+            /* url('data:image/jpeg;base64,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'); */
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .titnl {
+            
+            margin: auto;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(211, 233, 248);
+        }
+
+
+        .style222 {
+            color: green;
+        }
+
+
+        .snip1446 {
+
+            margin: auto;
+            min-width: 230px;
+            max-width: 315px;
+            max-height: 378px;
+            width: 300px;
+            height: 378px;
+            color: black;
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+            width: 100%;
+            color: #ffffff;
+            text-align: center;
+            font-size: 13px;
+            float: left;
+
+        }
+
+
+        .snip1446 * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all 0.35s ease;
+            transition: all 0.35s ease;
+
+        }
+
+        .snip1446 img {
+            opacity: 1;
+            width: 100%;
+        }
+
+        .cards {
+            width: 1400px;
+            justify-content: center;
+            margin: auto;
+            display: block;
+            flex-direction: column;
+            align-items: center;
+            padding-left: 2%;
+        }
+
+
+
+        .snip1446:after,
+        .snip1446:before,
+        .snip1446 figcaption:after,
+        .snip1446 figcaption:before {
+            background: #0a0a0a;
+            width: 25%;
+            position: absolute;
+            content: '';
+            opacity: 0;
+            -webkit-transition: all 0.3s steps(4);
+            transition: all 0.3s steps(4);
+            z-index: 1;
+            top: 100%;
+            bottom: 0;
+        }
+
+        .snip1446 i {
+            padding: 0px 10px;
+            display: inline-block;
+            font-size: 24px;
+            color: purple;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        #buttons_pi {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #posting-box {
+            display: none;
+        }
+
+
+
+
+        .snip1446:before {
+            left: 0;
+            -webkit-transition-delay: 0;
+            transition-delay: 0;
+        }
+
+        .snip1446:after {
+            left: 25%;
+            -webkit-transition-delay: 0.1s;
+            transition-delay: 0.1s;
+        }
+
+        .snip1446 figcaption:before {
+            left: 50%;
+            -webkit-transition-delay: 0.2s;
+            transition-delay: 0.2s;
+            z-index: -1;
+        }
+
+        .snip1446 figcaption:after {
+            left: 75%;
+            -webkit-transition-delay: 0.3s;
+            transition-delay: 0.3s;
+            z-index: -1;
+        }
+
+        .snip1446 figcaption {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            padding: 27px;
+        }
+
+        .snip1446 h2,
+        .snip1446 h3,
+        .snip1446 p,
+        .snip1446 .icons {
+            margin: 0;
+            width: 100%;
+            opacity: 0;
+        }
+
+        .snip1446 h2 {
+            font-weight: 500;
+            font-size: 25px;
+        }
+
+        .snip1446 h3 {
+            font-size: 19px;
+            text-transform: uppercase;
+        }
+
+        .snip1446 p {
+            font-weight: 300;
+        }
+
+        .snip1446 .icons {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+
+        }
+
+        .snip1446 i {
+            padding: 0px 10px;
+            display: inline-block;
+            font-size: 24px;
+            color: purple;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .snip1446 i:hover {
+            opacity: 1;
+        }
+
+        .snip1446:hover:after,
+        .snip1446.hover:after,
+        .snip1446:hover:before,
+        .snip1446.hover:before,
+        .snip1446:hover figcaption:after,
+        .snip1446.hover figcaption:after,
+        .snip1446:hover figcaption:before,
+        .snip1446.hover figcaption:before {
+            top: 0;
+            opacity: 0.8;
+        }
+
+        .snip1446:hover figcaption h2,
+        .snip1446.hover figcaption h2,
+        .snip1446:hover figcaption h3,
+        .snip1446.hover figcaption h3,
+        .snip1446:hover figcaption p,
+        .snip1446.hover figcaption p,
+        .snip1446:hover figcaption .icons,
+        .snip1446.hover figcaption .icons {
+            -webkit-transition-delay: 0.4s;
+            transition-delay: 0.4s;
+        }
+
+        .snip1446:hover figcaption h2,
+        .snip1446.hover figcaption h2,
+        .snip1446:hover figcaption h3,
+        .snip1446.hover figcaption h3,
+        .snip1446:hover figcaption .icons,
+        .snip1446.hover figcaption .icons {
+            opacity: 1;
+        }
+
+        .snip1446:hover figcaption p,
+        .snip1446.hover figcaption p {
+            opacity: 0.7;
+        }
+
+        /* .gogo {
+            float: left;
+        } */
+    </style>
+
+</head>
+
+<body>
+    <div class="bgimg">
+        <div class="titnl">
+            <div class='style222'>
+                <!-- <h1 class="display-4 botton">나만의 가구찾기</h1><br>
+                <p class="lead botton">본인이 원하는 가구를 가격대 별로 볼수 있습니다.</p><br>
+                <hr class="my-4">
+                <div class='botton'>
+                    <div class="input-group">
+                        <select class="custom-select" id="something" aria-label="Example select with button addon">
+                            <option selected>선택하세요!</option>
+                            <option value="chair">의자</option>
+                            <option value="sofa">소파</option>
+                            <option value="desk">책상</option>
+                        </select>
+                        <div class="input-group-append">
+                            <div class="input-group mb-3">
+                                <input type="text" placeholder="보고싶은 갯수(숫자입력)" class="form-control count_form"
+                                    id='count_num' aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-default">
+                            </div>
+                            <button class="btn btn-outline-secondary" type=button onclick='find_thing()'>검색!</button>
+                        </div>
+                    </div> -->
+
+
+                <br>
+                <p class="lead">
+                    <a id="btn-posting-box" onclick="goback()" class="button is-success" href="#" role="button">
+                        홈으로</a>
+                </p>
+                <p class="lead">
+                    <a id="btn-posting-box" onclick="randgo()" class="button is-success" href="#" role="button">
+                        다시 랜덤검색</a>
+                </p>
+                <br>
+                <div id="buttons_pi">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cards" >
+        <figure class="snip1446">
+            <div class="gogo">
+                <img class='img_url'
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQkpgc3cUugqj9GxDpAgjqWtZ0FxDazzMk0uGFTR9R-K9L1pr3v&usqp=CAU"
+                    alt="sample15">
+                <figcaption>
+                    <h2>브랜드</h2>
+                    <p>이름
+                        My family is dysfunctional and my parents won't empower me. Consequently I'm not self
+                        actualized.
+                    </p>
+                    <div class="icons">
+                        <a href="#"><i class="ion-chatbubbles"></i></a>
+                        <a href="#"><i class="ion-person-add"></i></a>
+                        <a href="#"><i class="ion-heart"></i></a>
+                    </div>
+
+                </figcaption>
+            </div>
+        </figure>
+
+
+    </div>
+    </div>
+
+</body>
+
+</html>
